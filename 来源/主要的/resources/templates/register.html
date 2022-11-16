@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>科大评教注册</title>
+    <link rel="icon" href="img/chat-icon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css"/>
+    <!--CSS RESET-->
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/loginAndRegister.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+</body>
+</html>
+<body>
+<div class="htmleaf-container">
+    <header class="htmleaf-header">
+        <h1>欢迎注册科大评教</h1>
+
+    </header>
+    <div class="demo form-bg">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8 col-sm-offset-3 col-sm-6">
+                    <form autocomplete="off" id="login-form" method="post" class="form-horizontal"
+                          onkeydown="if(event.keyCode===13){return false;}">
+                        <div class="heading">学生注册</div>
+						
+                        <div class="form-group">
+                            <i class="fa fa-user"></i><input autocomplete="new-password" id="nickName" required name="nickName" type="text"
+                                                             class="form-control"
+                                                             placeholder="姓名" oninput="nickNameCheck()">
+                            <span id="nickNamecheck"></span>
+                        </div>
+						<div class="form-group">
+						    <i class="fa fa-address-card"></i><input autocomplete="new-password" id="userNum" required name="userNum" type="text"
+						                                     class="form-control"
+						                                     placeholder="学号" oninput="student_numberCheck()">
+						    <span id="student_numbercheck"></span>
+						</div>
+                        <div class="form-group">
+                            <i class="fa fa-lock"></i><input autocomplete="new-password" id="password" required name="password" type="password"
+                                                             class="form-control" placeholder="密码" oninput="pwdcheck()"/>
+                            <span id="pwdsizecheck"></span>
+                        </div>
+                        <div class="form-group">
+                            <i class="fa fa-lock"></i><input autocomplete="new-password" id="confirmPassword" required name="Confirmpassword" type="password"
+                                                             class="form-control" placeholder="确认密码" oninput="pwdcheck()"/>
+                            <span id="pwd2check"></span>
+                        </div>
+                        <div class="form-group">
+                            <i class="fa fa-envelope"></i><input autocomplete="new-password" id="email" required name="email" type="text"
+                                                             class="form-control" placeholder="邮箱" oninput="emailcheck()"/>
+                            <span id="email2check"></span>
+                        </div>
+						<div class="form-group">
+						    <i class="fa fa-music"></i><input autocomplete="new-password" id="grade" required name="grade" type="text"
+						                                     class="form-control" placeholder="年级" oninput="gradecheck()"/>
+						    <span id="gradecheck"></span>
+						</div>
+						<div class="form-group">
+						    <i class="fa fa-plane"></i><input autocomplete="new-password" id="classes" required name="classes" type="text"
+						                                     class="form-control" placeholder="班级" oninput="classcheck()"/>
+						    <span id="classcheck"></span>
+						</div>
+						<div class="form-group">
+						    <i class="fa fa-rocket"></i><input autocomplete="new-password" id="major" required name="major" type="text"
+						                                     class="form-control" placeholder="专业" oninput="majorcheck()"/>
+						    <span id="majorcheck"></span>
+						</div>
+                        <div id="remind-info"></div>
+                        <div class="form-group">
+                            <button id="submit" type="button" class="btn btn-default"><i class="fa fa-arrow-right">立即注册</i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+    let ifNickNameOk = false;
+    let ifPasswordOk = false;
+    let ifEmailOk = false;
+
+    function nickNameCheck(){
+        var nick=document.getElementById("nickName").value;
+        var nickcheck=document.getElementById("nickNamecheck");
+        if((/^[\u4e00-\u9fa5_a-zA-Z0-9]{1,15}$/.test(nick))){
+            nickcheck.innerHTML="昵称格式正确";
+            ifNickNameOk = true;
+        }
+        else{
+            nickcheck.innerHTML="<font color='red'>昵称格式不正确<font>";
+            ifNickNameOk = false;
+        }
+    }
+	function student_numberCheck(){
+	    var nick=document.getElementById("student_number").value;
+	    var nickcheck=document.getElementById("student_numbercheck");
+	    if((/^[\u4e00-\u9fa5_a-zA-Z0-9]{1,15}$/.test(nick))){
+	        nickcheck.innerHTML="学号格式正确";
+	        ifNickNameOk = true;
+	    }
+	    else{
+	        nickcheck.innerHTML="<font color='red'>学号格式不正确<font>";
+	        ifNickNameOk = false;
+	    }
+	}
+    function pwdcheck() {
+        var pwd1 = document.getElementById("password").value;
+        var pwd2 = document.getElementById("confirmPassword").value;
+        var pwdsizecheck = document.getElementById("pwdsizecheck");
+        var pwd2check = document.getElementById("pwd2check");
+        if(!(/^(\w){6,20}$/.test(pwd1))){
+            pwdsizecheck.innerHTML="<font color='red'>密码格式不正确<font>";
+            ifPasswordOk = false;
+        }
+        else if((/^(\w){6,20}$/.test(pwd1))){
+            pwdsizecheck.innerHTML="格式正确！";
+        }
+        if(pwd2 !== pwd1){
+            pwd2check.innerHTML = "<font color='red'>两次密码不一致<font>";
+            ifPasswordOk = false;
+            return;
+        }
+        else {
+            pwd2check.innerHTML = "两次密码一致";
+            ifPasswordOk = true;
+        }
+    }
+    function  emailcheck() {
+        var email=document.getElementById("email").value;
+        var email2check=document.getElementById("email2check");
+        if(  /^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$/.test(email)){
+            email2check.innerHTML="邮箱格式正确";
+            ifEmailOk = true;
+        }
+        else{
+            email2check.innerHTML="<font color='red'>邮箱格式不正确<font>";
+            ifEmailOk = false;
+        }
+    }
+	function gradecheck(){
+	    var nick=document.getElementById("grade").value;
+	    var nickcheck=document.getElementById("gradecheck");
+	    if((/^[\u4e00-\u9fa5_a-zA-Z0-9]{1,15}$/.test(nick))){
+	        nickcheck.innerHTML="年级格式正确";
+	        ifNickNameOk = true;
+	    }
+	    else{
+	        nickcheck.innerHTML="<font color='red'>年级格式不正确<font>";
+	        ifNickNameOk = false;
+	    }
+	}
+	function classcheck(){
+	    var nick=document.getElementById("classes").value;
+	    var nickcheck=document.getElementById("classcheck");
+	    if((/^[\u4e00-\u9fa5_a-zA-Z0-9]{1,15}$/.test(nick))){
+	        nickcheck.innerHTML="班级格式正确";
+	        ifNickNameOk = true;
+	    }
+	    else{
+	        nickcheck.innerHTML="<font color='red'>班级格式不正确<font>";
+	        ifNickNameOk = false;
+	    }
+	}
+	function majorcheck(){
+	    var nick=document.getElementById("major").value;
+	    var nickcheck=document.getElementById("majorcheck");
+	    if((/^[\u4e00-\u9fa5_a-zA-Z0-9]{1,15}$/.test(nick))){
+	        nickcheck.innerHTML="专业格式正确";
+	        ifNickNameOk = true;
+	    }
+	    else{
+	        nickcheck.innerHTML="<font color='red'>专业格式不正确<font>";
+	        ifNickNameOk = false;
+	    }
+	}
+    $(function () {
+        let validateUrl = "http://" + window.location.host.toString() + "/register";
+        let mainUrl = "http://" + window.location.host.toString() + "/main";
+        let loginUrl = "http://" + window.location.host.toString() + "/login";
+        let rootUrl = "http://" + window.location.host.toString();
+
+
+        $("#submit").click(function () {
+            if(!(ifEmailOk && ifNickNameOk && ifPasswordOk)){
+                alert("请按要求完善表单信息再提交！");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: validateUrl,
+                data:$("#login-form").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    if (data["flag"]) {
+                        alert("注册成功，点击跳往登录界面使用邮箱登录");
+                        window.location.href=rootUrl;
+                    } else{
+                        $("#remind-info").html(data["message"]);
+                        return false;
+                    }
+                }
+            })
+        })
+    })
+</script>
+</html>

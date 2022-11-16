@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/SearchFriends.css"/>
+	<link rel="stylesheet" type="text/css" href="css/heartChat.css"/>
+	<link rel="stylesheet" href="css/modifyInfoPage.css" type="text/css">
+	<link rel="icon" href="img/chat-icon.png" type="image/x-icon">
+
+	<title>科大评教系统</title>
+	<style>
+		@font-face {
+			font-family: 'icomoon';
+			src:  url('css/fonts/icomoon.eot?czbnho');
+			src:  url('css/fonts/icomoon.eot?czbnho#iefix') format('embedded-opentype'),
+			url('css/fonts/icomoon.ttf?czbnho') format('truetype'),
+			url('css/fonts/icomoon.woff?czbnho') format('woff'),
+			url('css/fonts/icomoon.svg?czbnho#icomoon') format('svg');
+			font-weight: normal;
+			font-style: normal;
+			font-display: block;
+		}
+		.a-radio{
+		            display: none;
+					visibility: hidden;
+		        }
+		        .b-radio{
+		            display: inline-block;
+		            border:1px solid #ccc;
+		            width:16px;
+		            height: 16px;
+		            border-radius:2px;
+		            vertical-align: middle;
+		            margin-right: 5px;
+		            position: relative;
+		        }
+		        .b-radio:before{
+		            content: '';
+		            font-size: 0;
+		            width: 10px;
+		            height: 10px;
+		            background: rgb(143, 188, 238);
+		            position: absolute;
+		            left:50%;
+		            top:50%;
+		            margin-left: -5px;
+		            margin-top: -5px;
+		            border-radius: 2px;
+		            display: none;
+		        }
+		        .a-radio:checked~.b-radio:before{
+		            display: block;
+		        }
+				label{
+				            margin:10px;
+				        }
+		.btn {
+		            /* position: absolute;
+		            top: 50%;
+		            left: 50%; */
+					position: relative;
+					top:5%
+					left:5%
+					/* z-index:999; */
+		            transform: translate(-50%, -50%);
+		            width: 70px;
+		            height: 30px;
+		            line-height: 30px;
+		            text-align: center;
+		            color: #fff;
+		            font-size: 15px;
+		            text-transform: uppercase;
+		            cursor: pointer;
+		            background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+		            background-size: 400%;
+		            border-radius: 60px;
+		        }
+		
+		        .btn:hover {
+		            animation: animate 8s linear infinite;
+		        }
+		
+		        @keyframes animate {
+		            0% {
+		                background-position: 0%;
+		            }
+		
+		            100% {
+		                background-position: 400%;
+		            }
+		        }
+		
+		        .btn::before {
+		            content: '';
+		            position: absolute;
+		            top: -5px;
+		            left: -5px;
+		            right: -5px;
+		            bottom: -5px;
+		            z-index: -1;
+		            background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+		            background-size: 400%;
+		            border-radius: 40px;
+		            opacity: 0;
+		            transition: 0.5s;
+		        }
+		
+		        .btn:hover::before {
+		            filter: blur(20px);
+		            opacity: 1;
+		            animation: animate 8s linear infinite;
+		        }
+		
+	</style>
+</head>
+<body style="overflow: hidden;background: linear-gradient(to right, #de5b6d 50%, #184f80 50%); font-family: ‘microsoft yahei‘;">
+	<div class="window">
+		<div class="home-part" style=" background: #184f80;">
+			<div id="chatmsg" class="home-part-navi" style=" background: #184f80;"><span class="navi-count"></span></div>
+			<div class="home-part-navi"style=" background: #184f80;"></div>
+			<div id="applymsg" class="home-part-navi"style=" background: #184f80;"><span class="navi-count"></span></div>
+			<div class="home-part-navi" id="add-btn" tabindex="10"style=" background: #184f80;">
+				<div id="add-list">
+					<div class="add-list-item" id="add-friend-btn">+添加老师/同学</div>
+					<div class="add-list-item" id="group-create-btn">+发起课程群聊</div>
+					<a href="/ctgu" target="_blank"><div class="add-list-item">自动报平安</div></a>
+				</div>
+			</div>
+			<div id="setting-icon"style=" background: #184f80;"></div>
+
+			<div id="modify-part"style=" background: #184f80;">
+				<div id="my-chat-head-big-box" >
+					点击上传头像
+					<img id="my-chat-head-big" th:src="@{'img/user-icon/'+*{curUser.getUserNum()}+'.jpg'}">
+					<div id="head-cover">点击上传头像</div>
+				</div>
+				<form>
+					<input id="file-input" type="file" name="userIcon">
+					<div><input id="icon-submit-btn" type="button" value="提交"></div>
+					<div class="info-item">昵称：<span th:text="*{curUser.nickName}"></span></div>
+					<div class="info-item">账号：<span th:text="*{curUser.userNum}"></span></div>
+					<div class="info-item">电话号码：<span th:text="*{curUser.phoneNum}"></span></div>
+					<div class="info-item">邮箱：<span th:text="*{curUser.email}"></span></div>
+					<div class="info-item">性别：<span th:text="*{curUser.sex}"></span></div>
+					<div class="info-item">年龄：<span th:text="*{curUser.age}"></span></div>
+					<div class="info-item">创建时间：<span th:text="*{curUser.createdTime}"></span></div>
+				</form>
+				<div id="setting-footer">
+					<div id="modify-myinfo">修改信息</div>
+					<a href="/logout">
+						<div>退出登录</div>
+					</a>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="link-list-part" style="background: #de5b6d ;">
+			<div class="list-header"style=" background: #184f80;">
+				<div id="my-head-box">
+					<img id="my-chat-head" th:src="@{'img/user-icon/'+*{curUser.getUserNum()}+'.jpg'}">
+					<p id="my-nickname" th:text="*{curUser.nickName}">这里显示姓名</p>
+					<p id="my-userNum" th:text="*{curUser.userNum}">这里显示学号</p>
+					<input id="link-search" type="text" placeholder="输入同学或课程名称" style=" background: #184f80;width: 100%;height: 40px;position:absolute;margin-bottom: 900px;">
+				</div>
+				<div id="group-create-box">
+					<div>请选择学生发起课程</div>
+					<div id="group-add-cancel">取消</div>
+					<div id="group-add-confirm">发起</div>
+				</div>
+				
+			</div>
+			<div id="chattingmsg" class="links-box beautiful-scrollbar">
+				<form id="invite-form">
+
+				<div data-Num="" data-userNum="" class="friend-items" title="" style="display: none">
+					<input class="checkbox-for-friend" type="checkbox" name="toInviteFriends" value="">
+					<img draggable="false" src="">
+					<div class="link-info">
+						<p class="friend-comment-p" >这里显示好友学号</p>
+						<p class="nickname-p">这里显示好友姓名</p>
+					</div>
+				<div class="message-count"></div>
+				</div>
+				<div th:each="firend:${friendListInfoList}" th:data-Num="*{firend.userNum}" th:data-userNum="*{firend.userNum}" class="friend-items clearfix" th:title="*{firend.commentForFriend+'('+firend.nickName+')'}">
+					<input class="checkbox-for-friend" type="checkbox" name="toInviteFriends" th:value="*{firend.userNum}">
+					<img draggable="false" th:src="@{'img/user-icon/'+*{firend.userNum}+'.jpg'}">
+					<div class="link-info">
+						<p class="friend-comment-p" th:text="*{firend.commentForFriend}">这里显示好友学号</p>
+						<p class="nickname-p" th:text="*{firend.nickName}">这里显示好友姓名</p>
+					</div>
+					<div class="message-count"></div>
+					<div class="operation-list">
+						<a class="modify-comment-btn">修改备注</a>
+						<a class="view-detail-btn">查看名片</a>
+						<a class="delete-friend-btn">删除同学</a>
+					</div>
+					<div class="more-btn">•••</div>
+					<input class="new-comment-input" th:value="*{firend.commentForFriend}" type="text"/>
+				</div>
+				</form>
+				<div th:each="group:${groupAndUserList}" th:data-Num="*{group.groupNum}" th:data-groupNum="*{group.groupNum}" class="group-items" th:title="*{group.groupName+'('+group.groupNum+')'}">
+					<img draggable="false" th:src="@{'img/user-icon/'+*{group.groupNum}+'.jpg'}">
+					<div class="link-info">
+						<p class="friend-comment-p" th:text="*{group.groupName}">这里显示课程名称</p>
+						<p class="nickname-p" th:text="*{group.groupNum}">这里显示课程号码</p>
+					</div>
+					<div class="message-count"></div>
+					<div class="operation-list">
+						<a class="modify-group-comment-btn">修改我的姓名</a>
+						<a class="view-group-detail-btn">查看群名片</a>
+						<a class="exit-group-btn">退出课程</a>
+					</div>
+					<div class="more-btn">•••</div>
+					<input class="new-group-comment-input" th:value="${group.memberComment}" type="text"/>
+				</div>
+			</div>
+
+<!--			系统消息显示区域-->
+			<div id="systeminfo" class="links-box beautiful-scrollbar" style="display: none">
+				<div class='system-items' style="display:none" data-num="" data-type-code="">
+					<div class="time-label"></div>
+					<p class='system-items-p1'></p>
+					<p class="system-items-p2"></p>
+					<p class="system-items-p3">
+						<button class="refuse-btn">拒绝</button>
+						<button class="agree-btn">同意</button>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="message-part">
+
+			<div class="message-box-header"style="height: 120px;">
+				
+				<!-- <div id="chart1" style="width: 45%;height:200px;z-index: 999;float: left;"></div>
+				<div id="chart1.5" style="width: 15%;height:200px;z-index: 999;float: left;padding-left: 3%;"></div>
+				<div id="chart2" style="width: 30%;height:150px;z-index: 999;float: left;padding-left: 2%;"></div> -->
+				
+				
+				<p id="chat-box-title"></p>
+				<p id="current-link-status"></p>
+				
+			</div>
+			
+			<div class="message-item-box beautiful-scrollbar">
+<!--				这里面显示消息-->
+			</div>
+			<div class="message-input-box" style="background: #de5b6d ;">
+				<div style="width: 80%;height: 50px;">
+				<div style="float: left;">
+				<label><input id="score" type="radio" name="6" value=1 class="a-radio"><span class="b-radio"></span>😟1分</label>
+				
+				<label><input id="score" type="radio" name="6" value=2 class="a-radio"><span class="b-radio"></span>🙁2分</label>
+				
+				<label><input id="score" type="radio" name="6" value=3 class="a-radio"><span class="b-radio"></span>😕3分</label>
+				
+				<label><input id="score" type="radio" name="6" value=4 class="a-radio"><span class="b-radio"></span>😊4分</label>
+				
+				<label><input id="score" type="radio" name="6" value=5 class="a-radio"><span class="b-radio"></span>😳5分</label>
+				
+				<label><input id="score" type="radio" name="6" value=6 class="a-radio" checked><span class="b-radio"></span>😚6分</label>
+				
+				</div>
+				
+				<button id="send_score"style="float: left;" class="btn">确定</button>
+				</div>
+				
+				<textarea title="换行请按Ctrl+Enter" autofocus id="pre-send-txt"style="background: #de5b6d ;"></textarea>
+				<div id="btn-box">
+					<button id="close-btn" class="msgbtn"style=" background: #184f80;">关闭</button>
+					<button id="send-btn" title="按下Enter键" class="msgbtn"style=" background: #184f80;">发送</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="friend-add-window">
+		<div id="window-head">
+			添加课程
+
+			<div id="window-close-btn">&times;</div>
+		</div>
+		<div id="window-body">
+			<div class="title">
+				<div class="title1">
+					<h1 class="headline1">查找同学/课程</h1>
+				</div>
+				<div class="title2">
+					<a href="SearchFriend.html"><h1 class="headline2">找同学</h1></a>
+					<div></div>
+				</div>
+				<div class="title3">
+					<a href="SearchGroup.html"><h1 class="headline3">找课程</h1></a>
+					<div></div>
+				</div>
+				<div class="title4"></div>
+				<div class="title5">
+					<a><h1 class="headline4">返回主页</h1></a>
+					<div></div>
+				</div>
+			</div>
+			<div class="total">
+				<form id="Search" method="post">
+					<div class="search">
+						<input type="text" name="userNum" placeholder="请输入学号/姓名" class="searchfriends">
+					</div>
+					<div class="btn">
+						<input id="submit" type="button" value="查找" class="btnSearch">
+						<div class="remindinfo"></div>
+					</div>
+					<div class="Select">
+						<select class="select1" name="sex">
+							<option selected hidden disabled>性别</option>
+							<option value="">不限</option>
+							<option value="男">男</option>
+							<option value="女">女</option>
+						</select>
+						<select class="select2" name="age">
+							<option selected hidden disabled>年龄</option>
+							<option value="">不限</option>
+							<option value="1">16-20岁</option>
+							<option value="2">21-25岁</option>
+						</select>
+					</div>
+				</form>
+				<div style="width: 40%;height: 60px;float: left;">
+					<label id="label1">验证消息</label>
+					<input id="checkmsg" type="text">
+				</div>
+				<div class="table1">
+					<table class="user">
+						<thead>
+						<tr>
+							<td>学号号码</td>
+							<td>姓名</td>
+							<td>添加同学</td>
+						</tr>
+						</thead>
+						<tbody class="user_table">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="cover-offline">
+		<div id="remind-in-cover">您已掉线，为确保正常通信请刷新页面或者重新登录！</div>
+	</div>
+	<script src="js/jquery-3.6.0.js"></script>
+	<script src="js/chat.js"></script>
+	<script src="js/modifyPage.js"></script>
+	
+    <script src="js/echarts.min.js"></script>
+	<!-- <script src="../static/js/jquery-3.6.0.min.js"></script> -->
+	<script type="text/javascript">
+	    // 基于准备好的dom，初始化echarts实例
+	    var myChart = echarts.init(document.getElementById('chart1'));
+		var myChart1 = echarts.init(document.getElementById('chart1.5'));
+		var myChart2 = echarts.init(document.getElementById('chart2'));
+	    // 指定图表的配置项和数据
+	    var option = {
+	        title: {
+	            text: '各表情人数统计'
+	        },
+	        tooltip: {},
+	        legend: {
+	            data:['各表情人数']
+	        },
+	        xAxis: {
+	            data: ["1","2","3","4","5","6"]
+	        },
+	        yAxis: {},
+	        series: [{
+	            name: '各表情人数',
+	            type: 'bar',
+	            data: [5, 0, 0, 5, 10, 10]
+	        }]
+	    };
+		
+		var option1 = {
+		    title: {
+		        text: '总人数'
+		    },
+		    tooltip: {},
+		    legend: {
+		        data:['总人数']
+		    },
+		    xAxis: {
+		        data: ["总人数"]
+		    },
+		    yAxis: {},
+		    series: [{
+		        name: '总人数',
+		        type: 'bar',
+				 itemStyle:{                 //---图形形状
+				                        color:'#de5b6d',
+				                        barBorderRadius:[18,18,0,0],
+				                    },
+				barWidth:'40', 
+				// color:#de5b6d,
+		        data: [30]
+		    }]
+		};
+		
+		var option2 = {
+		    title: {
+		        text: '分数统计'
+		    },
+		    tooltip: {
+		        // {a} 表示series中的name
+		        // {b} 表示数据中的series.data中的name
+		        // {c} 表示每一项的值
+		        // {d} 表示百分比
+		        formatter: '{a} <br />{b}  <strong>{c}</strong>分'
+		      },
+		   series: [
+		       {
+		         name: '分数详情',
+		         type: 'pie', // pie 表示饼图
+		         radius: ['10%', '65%'], // 内外圈的半径
+		         center: ['50%', '50%'], // 中心点
+		         roseType: 'area', // area表示面积模式，radius表示半径模式
+		         itemStyle: { // 每一项的设置
+		           borderRadius: 4, // 扇形边缘圆角设置
+		         },
+		         data: [
+		           { value: 40, name: '平均分' },
+		           { value: 38, name: '分数方差' },
+		           
+		         ]
+		       }
+		     ]
+		  
+		};
+	    // // 定义x、y轴数据数组
+	    // var names=[];
+	    var nums=[];
+		let chart1Url = "http://" + window.location.host.toString() + "/HeartChat";
+	    //请求后台数据
+	    // $.ajax({
+	    //     type: "get",
+	    //     url: chart1Url,
+	    //     contentType: "json",
+	    //     success: function(res){
+	    //         console.log("=====res: =======")
+	    //         console.log(res);
+	    //         for (var i = 0; i < res.length ; i++) {
+	    //             // names.push(res[i].name);
+	    //             nums.push(res[i].num);
+	    //         }
+	    //         myChart.setOption({
+	    //             // xAxis: {
+	    //             //     data: names
+	    //             // },
+	    //             series: [{
+	    //                 // 根据名字对应到相应的系列
+	    //                 name: '各表情人数',
+	    //                 data: nums
+	    //             }]
+	    //         });
+	    //     }
+	    // });
+	 
+	    // 使用刚指定的配置项和数据显示图表。
+	    myChart.setOption(option);
+		myChart1.setOption(option1);
+		myChart2.setOption(option2);
+	</script>
+
+</body>
+</html>

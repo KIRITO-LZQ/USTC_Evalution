@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>科大评教</title>
+    <link rel="icon" href="img/chat-icon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css"/>
+    <!--CSS RESET-->
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/loginAndRegister.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+</body>
+</html>
+<body>
+<div class="htmleaf-container">
+    <header class="htmleaf-header">
+        <h1>欢迎来到科大评教</h1>
+
+    </header>
+    <div class="demo form-bg">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
+                    <form id="login-form" method="post" class="form-horizontal"
+                          onkeydown="if(event.keyCode===13){return false;}">
+                        <div class="heading">科大评教</div>
+                        <div class="form-group">
+                            <i class="fa fa-user"></i><input id="userNum" required name="userNum" type="text"
+                                                             class="form-control"
+                                                             placeholder="姓名/学号/邮箱/电话">
+                        </div>
+                        <div class="form-group">
+                            <i class="fa fa-lock"></i><input id="password" required name="password" type="password"
+                                                             class="form-control" placeholder="密码"/>
+                        </div>
+                        <div id="remind-info"></div>
+                        <div class="form-group">
+                            <button id="submit" type="button" class="btn btn-default"><i
+                                    class="fa fa-arrow-right">登录</i></button>
+                        </div>
+                        <div class="htmleaf-links">
+                            <a href="/registerView" target="_blank">点击注册</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    $(function () {
+        let validateUrl = "http://" + window.location.host.toString() + "/login";
+        let mainUrl = "http://" + window.location.host.toString() + "/main";
+        $("#submit").click(function () {
+            $.ajax({
+                type: "POST",
+                url: validateUrl,
+                data:$("#login-form").serialize(),
+                dataType: "json",
+                success: function (data) {
+
+                    if (data["flag"]) {
+                        window.location.href=mainUrl;
+                    } else{
+                        $("#remind-info").html(data["message"]);
+                        return false;
+                    }
+                }
+            })
+        })
+    })
+</script>
+</html>
